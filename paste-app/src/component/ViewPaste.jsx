@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ViewPaste() {
+const ViewPaste = () => {
   return (
     <div>ViewPaste</div>
   )

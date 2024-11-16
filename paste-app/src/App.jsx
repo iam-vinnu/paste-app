@@ -1,26 +1,31 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
+import Navbar from './component/Navbar'
+import Home from './component/Home'
 
-const  router = createBrowserRouter([
+const router = createBrowserRouter([
   {
-    path:'/',
-    element: <div>Binsy</div>
+    path: '/',
+    element: <>
+      <Navbar />
+      <Home />
+    </>
   },
   {
-    path:'/pastes',
+    path: '/pastes',
     element: <div></div>
   }
 ])
 
 function App() {
 
-  
-
   return (
-          <div>
-            Paste App
-          </div>
+    // <RouterProvider router={router}/>
+    <div> binay </div>
   )
+
+
 }
 
 export default App
+

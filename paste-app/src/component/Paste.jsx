@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Paste() {
+const Paste = () => {
   return (
     <div>Paste</div>
   )
