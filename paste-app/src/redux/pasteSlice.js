@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 
 const pasteSlice = createSlice({
@@ -9,17 +10,38 @@ const pasteSlice = createSlice({
         : []
     },
     reducers:{
-        setPastes : (state , action)=>{
-            state.pastes = action.payload
+        addToPastes : (state , action)=>{
+            const paste = action.payload;
+            state.pastes.push(paste);
+            localStorage.setItem('pastes',JSON.stringify(state.pastes));
+            toast('Paste Created Successfully');
         },
         updatePaste : (state,action)=>{
+            const paste = action.payload ;
+            const index = state.pastes.findIndex((item)=> item._id === paste._id);
+            if(index>=0){
+                state.pastes[index] = paste;
+            }
 
+            localStorage.setItem('pastes',JSON.stringify(state.pastes));
+            toast.success('Paste Updated Successfully');
         },
-        removePaste : (state , action)=>{
-            
+        resetAllPastes : (state , action)=>{
+            state.pastes = [];
+            localStorage.removeItem('pastes');
+        },
+        removeFromPastes : (state,action)=>{
+           const pasteId = action.payload;
+           const index = state.pastes.findIndex((item)=>item._id === pasteId);
+
+           if(index>=0){
+            state.pastes.splice(index , 1);
+           }
+           localStorage.setItem('pastes', JSON.stringify(state.pastes));
+           toast.success('Paste deleted');
         }
     }
 })
 
-export const {setPastes , updatePaste , removePaste} = pasteSlice.actions;
+export const {addToPastes , updatePaste , resetAllPastes , removeFromPastes} = pasteSlice.actions;
 export default pasteSlice.reducer;
