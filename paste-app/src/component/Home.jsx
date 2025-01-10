@@ -1,15 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { addToPastes, updatePaste } from '../redux/pasteSlice';
 
 const Home = () => {
+  const allPastes = useSelector((state)=>state.paste.pastes);
   const [title, setTitle] = useState('');
   const [value, setValue] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const pasteId = searchParams.get("pasteid");
   const dispatch = useDispatch();
+   
+  useEffect(()=>{
+    if(pasteId){
+      const singlePaste = allPastes.find((p)=>
+        p._id === pasteId
+      );
+       setTitle(singlePaste.title);
+       setValue(singlePaste.content);
+      
+      
+    }
+  },[pasteId]);
 
+  
+ 
   const createPaste =(e)=>{
         const paste = {
           title : title ,
@@ -21,7 +36,8 @@ const Home = () => {
         if(pasteId){
           // update
           dispatch(updatePaste(paste));
-            
+          
+             
         }else{
           // create
           dispatch(addToPastes(paste));
@@ -31,6 +47,7 @@ const Home = () => {
         setSearchParams({});
         setValue('');
   }
+
   return (
     <div>
       <div className='flex flex-row gap-7 justify-between'>
